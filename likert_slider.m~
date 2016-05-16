@@ -50,12 +50,12 @@ fontSize = round(screenYpixels * 2/40);
 low_label_width = RectWidth(Screen('TextBounds',window,scale_low_label));
 middle_label_width = RectWidth(Screen('TextBounds',window,scale_middle_label));
 spacing = 60; %physical spacing of scale intervals in pixel units
-ratingPenWidth = screenXpixels/200; % thickness of circle cursor that moves along the scale 
-circlePenColor = [.1333, .5451, .1333]; %ForestGreen
+penWidth = screenXpixels/100; % thickness of circle cursor that moves along the scale 
+% ratingPenColor = [.1333, .5451, .1333]; %ForestGreen
 % ratingPenColor = [33.9915  139.0005   33.9915]; %ForestGreen
 ratingPenColor = [0 0 0]; %black
-ratingRectWidth = screenXpixels * 3 / 60;
-ratingRectHeight = screenYpixels * 6 / 60;
+ratingRectWidth = screenXpixels * 4 / 60;
+ratingRectHeight = screenYpixels * 5 / 40;
 baseRatingRect = [0 0 ratingRectWidth ratingRectHeight];
 
 
@@ -91,7 +91,7 @@ lastPosCenter = lineRects(3,length(lineRects))-ratingRectWidth/2; %Line end poin
 scaleLineYpos = yCenter; % Y postion of line
 % scaleLineXposLeft = lineRects(1,1); % Line starting point on leftmost slider position
 % scaleLineXposRight = lineRects(1,length(lineRects)); %Line end point on righttmost slider position
-Screen('DrawLine', window, ratingPenColor, lastPosCenter, scaleLineYpos, firstPosCenter, scaleLineYpos, ratingPenWidth); % Make this a line separating the sections
+Screen('DrawLine', window, penWidth, lastPosCenter, scaleLineYpos, firstPosCenter, scaleLineYpos); % Make this a line separating the sections
 % Scrn('DrawLine', window, [weight    ], lineEndXpo?, [verticlend], textXpo?, [vertclstrt]; % Make this a line separating the sections
 
 %prepare scale labels
@@ -133,7 +133,7 @@ screenCenter(2) + fontSize*1.5, ratingPenColor);
 % position circle slider to middle position
 currRatingSelection = mean([1:length(lineRects)]);
 selectedRect = lineRects(:,currRatingSelection); % get new coordinates of circle
-Screen('FrameArc', window, circlePenColor, selectedRect, 0, 360, ratingPenWidth); % Draw the circle to the screen
+Screen('FrameArc', window, ratingPenColor, selectedRect, 0, 360, penWidth); % Draw the circle to the screen
 
 
 %present drawindowg
@@ -214,14 +214,14 @@ keyName=KbName(keyCode);
 
 % latest position of circle slider
     selectedRect = lineRects(:,currRatingSelection); % get new coordinates of circle
-    Screen('FrameArc', window, circlePenColor, selectedRect, 0, 360, ratingPenWidth); % Draw the circle to the screen
+    Screen('FrameArc', window, ratingPenColor, selectedRect, 0, 360, penWidth); % Draw the circle to the screen
 
     for line_num = 1:length(scale_question)
         line_width = RectWidth(Screen('TextBounds',window,scale_question{line_num}));
         Screen('DrawText', window, scale_question{line_num}, screenCenter(1) - line_width/2, ...
             screenCenter(2) - fontSize * (2 + length(scale_question)-line_num+1), ratingPenColor);
     end
-    Screen('DrawLine', window, ratingPenColor, lastPosCenter, scaleLineYpos, firstPosCenter, scaleLineYpos, ratingPenWidth); % Make this a line separating the sections
+    Screen('DrawLine', window, penWidth, lastPosCenter, scaleLineYpos, firstPosCenter, scaleLineYpos); % Make this a line separating the sections
     Screen('DrawText', window, scale_low_label, firstPosCenter - length(scale_low_label)*fontSize/6, screenCenter(2) + fontSize*1.5, ratingPenColor);
     Screen('DrawText', window, scale_middle_label, screenCenter(1) - length(scale_middle_label)*fontSize/3.5, screenCenter(2) + fontSize*1.5, ratingPenColor);
     Screen('DrawText', window, scale_hi_label, lastPosCenter - length(scale_hi_label)*fontSize/2.2, screenCenter(2) + fontSize*1.5, ratingPenColor);
